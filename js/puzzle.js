@@ -9,14 +9,14 @@ do {
 	if(r!=-1) {
 		l.push(r);
 		g[ri] = -1;
-		n+=1;
+		n+=1;4
 	}
 
 } while(n<9);
 
 function drawPuzzle() {//shuffles the image pieces
 	for(i=0;i<9;i++) {
-		document.getElementsByTagName('td')[i].innerHTML = '<img src="'+l[i]+'.jpg">';
+		document.getElementsByTagName('td')[i].innerHTML = '<img src="/images/puzzleImages/'+l[i]+'.jpg">';
 	}
 	checkwin();
 }
