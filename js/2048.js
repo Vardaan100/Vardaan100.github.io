@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded',() =>{
             squares.push(square)
             // console.log("Creating board")
         }
+        //generating 2 random numbers in the beginning
         generate()
         generate()
     }
@@ -24,8 +25,10 @@ document.addEventListener('DOMContentLoaded',() =>{
     //generate a number randonly
     function generate(){
         let randomNumber = Math.floor(Math.random() * squares.length)
+        // console.log(randomNumber)
         if(squares[randomNumber].innerHTML == 0){
             squares[randomNumber].innerHTML = 2
+            //checking if all squares are filled
             checkGameOver()
         } else generate()
     }
@@ -34,6 +37,7 @@ document.addEventListener('DOMContentLoaded',() =>{
     function moveRight() {
         for(let i=0; i<16;i++){
             if(i % 4 == 0){
+                //storing rows in variables
                 let totalOne = squares[i].innerHTML
                 let totalTwo = squares[i+1].innerHTML
                 let totalThree = squares[i+2].innerHTML
@@ -42,14 +46,18 @@ document.addEventListener('DOMContentLoaded',() =>{
 
                 // console.log(row)
 
+                //saving the values having number
                 let filteredRow = row.filter(num => num)
                 // console.log(filteredRow)
+                
+                //saving the rest empty saves
                 let missing = 4 - filteredRow.length
                 let zeros = Array(missing).fill(0)
                 // console.log(zeros)
                 let newRow = zeros.concat(filteredRow)
                 // console.log(newRow)
 
+                //storing values in rows 
                 squares[i].innerHTML = newRow[0]
                 squares[i+1].innerHTML = newRow[1]
                 squares[i+2].innerHTML = newRow[2]
@@ -74,14 +82,18 @@ document.addEventListener('DOMContentLoaded',() =>{
 
                 // console.log(row)
 
+                //saving the values having number
                 let filteredRow = row.filter(num => num)
                 // console.log(filteredRow)
+
+                //saving the rest empty saves
                 let missing = 4 - filteredRow.length
                 let zeros = Array(missing).fill(0)
                 // console.log(zeros)
                 let newRow = filteredRow.concat(zeros)
                 // console.log(newRow)
 
+                //storing values in columns
                 squares[i].innerHTML = newRow[0]
                 squares[i+1].innerHTML = newRow[1]
                 squares[i+2].innerHTML = newRow[2]
@@ -92,6 +104,7 @@ document.addEventListener('DOMContentLoaded',() =>{
     }
     // moveLeft()
 
+    //using same as moveRight but traversing width 
     //moving down 
     function moveDown(){
         for(let i=0; i< 4; i++){
@@ -112,7 +125,8 @@ document.addEventListener('DOMContentLoaded',() =>{
             squares[i+(width*3)].innerHTML = newColumn[3]
         }
     }
-    
+
+    //using same as moveRight but traversing width 
     //moving up
     function moveUp(){
         for(let i=0; i< 4; i++){
@@ -134,7 +148,7 @@ document.addEventListener('DOMContentLoaded',() =>{
         }
     }
 
-
+    //adding similar adjust values in rows
     function combineRow(){
         for(let i=0; i < 15; i++){
             if(squares[i].innerHTML == squares[i+1].innerHTML){
@@ -145,9 +159,11 @@ document.addEventListener('DOMContentLoaded',() =>{
                 scoreDisplay.innerHTML = score
             }
         }
+        //checking for 2048 
         checkForWin()
     }
 
+    //adding similar adjust values in columns
     function combineColumn(){
         for(let i=0; i < 12; i++){
             if(squares[i].innerHTML == squares[i+width].innerHTML){
@@ -158,10 +174,11 @@ document.addEventListener('DOMContentLoaded',() =>{
                 scoreDisplay.innerHTML = score
             }
         }
+        //checking for 2048 
         checkForWin()
     }
 
-    //assign keycodes
+    //assign keycodes for user to make inputs
     function control(e){
         if(e.keyCode== 39){
             keyRight()
@@ -179,13 +196,15 @@ document.addEventListener('DOMContentLoaded',() =>{
     }
     document.addEventListener('keyup',control)
 
+    //when player moves right key
     function keyRight(){
         moveRight()
         combineRow()
         moveRight()
         generate()
     }
-    
+
+    //when player moves right left
     function keyLeft(){
         moveLeft()
         combineRow()
@@ -193,6 +212,7 @@ document.addEventListener('DOMContentLoaded',() =>{
         generate()
     }
 
+    //when player moves right down
     function keyDown(){
         moveDown()
         combineColumn()
@@ -200,6 +220,7 @@ document.addEventListener('DOMContentLoaded',() =>{
         generate()
     }
 
+    //when player moves right up
     function keyUp(){
         moveUp()
         combineColumn()
@@ -207,10 +228,10 @@ document.addEventListener('DOMContentLoaded',() =>{
         generate()
     }
 
-    //check for the number 2048 in the squares ti win
+    //check for the number 2048 in the squares to win
     function checkForWin(){
         for(let i=0;i<squares.length;i++){
-            if(squares[i].innerHTML == 2048){
+            if(squares[i].innerHTML == 16){
                 resultDisplay.innerHTML = 'You Win!'
                 document.removeEventListener('keyup',control)
             }
@@ -231,13 +252,13 @@ document.addEventListener('DOMContentLoaded',() =>{
         }
     }
 
-    //clear timer
+    //clear timer for adding colours everytime a new box is created with runs indefinitely
     function clear() {
         clearInterval(myTimer)
     }
 
 
-  //add colours
+    //add colours in every square of all values
     function addColours() {
         for (let i=0; i < squares.length; i++) {
             if (squares[i].innerHTML == 0) squares[i].style.backgroundColor = '#afa192'
@@ -256,6 +277,7 @@ document.addEventListener('DOMContentLoaded',() =>{
 }
 addColours()
 
+//interval of adding colours for every 0.05 seconds
 var myTimer = setInterval(addColours, 50)
 
 }) 
